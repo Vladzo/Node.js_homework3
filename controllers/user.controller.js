@@ -8,7 +8,7 @@ module.exports = {
     },
 
     getUserById: async (req, res) => {
-        const user = await req.user;
+        const { user } = await req;
         res.json(user);
     },
 
@@ -19,17 +19,14 @@ module.exports = {
     },
 
     removeUserById: async (req, res) => {
-        const { userId } = req.params;
-
-        await userService.removeUser(userId);
+        const { id } = req.user;
+        await userService.removeUser(id);
 
         res.json('User has been removed!');
     },
 
     updateUserById: async (req, res) => {
-        const { userId } = req.params;
-
-        await userService.updateUser(JSON.stringify(req.body), userId);
+        await userService.updateUser(JSON.stringify(req.body));
 
         res.json('User has been updated');
     }

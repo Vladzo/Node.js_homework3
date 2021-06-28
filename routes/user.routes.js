@@ -9,8 +9,8 @@ router.get('/:userId', userMiddleware.isUserAlreadyExist, userController.getUser
 
 router.post('/create', userMiddleware.canUserRegister, userController.createUser);
 
-router.delete('/delete/:userId', userMiddleware.isUserAlreadyExist, userController.removeUserById);
+router.delete('/delete', userMiddleware.isUserAlreadyExist, userController.removeUserById);
 
-router.put('/update/:userId', userMiddleware.isUserAlreadyExist, userController.updateUserById);
+router.put('/update', userMiddleware.isUserAlreadyExist, userController.updateUserById);
 
 module.exports = router;

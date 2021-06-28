@@ -5,9 +5,12 @@ const { ERROR_USER_ALREADY_EXIST } = require('../constants');
 module.exports = {
     isUserAlreadyExist: async (req, res, next) => {
         const users = await userService.getAllUsersFromDb();
-        const { userId } = req.params;
+        let idUser = req.body.id;
 
-        const user = users.find((u) => u.id.toString() === userId.toString());
+        if (req.method === 'GET') {
+            idUser = req.params.userId;
+        }
+        const user = users.find((u) => u.id.toString() === idUser.toString());
 
         if (!user) {
             throw new Error(ERROR_USER_NOT_FOUND);
@@ -25,7 +28,6 @@ module.exports = {
         const user = users.find((u) => u.email === email);
 
         if (user) {
-            console.log(user);
             throw new Error(ERROR_USER_ALREADY_EXIST);
         }
 

@@ -17,10 +17,10 @@ async function getAllUsersFromDb() {
 async function createNewUser(user) {
     let users = await readFilePromise(pathToDb);
     users = JSON.parse(users.toString());
-    user = JSON.parse(user);
-    user.id = users.length + 1;
+    const newUser = JSON.parse(user);
+    newUser.id = users.length + 1;
 
-    users.push(user);
+    users.push(newUser);
 
     await writeFilePromise(pathToDb, JSON.stringify(users));
 }
@@ -33,16 +33,17 @@ async function removeUser(userId) {
     await writeFilePromise(pathToDb, JSON.stringify(newUsers));
 }
 
-async function updateUser(user, userId) {
+async function updateUser(user) {
     let users = await readFilePromise(pathToDb);
     users = JSON.parse(users.toString());
-    user = JSON.parse(user);
+    const newUser = JSON.parse(user);
+    const userId = newUser.id;
 
     users.forEach((u) => {
         if (u.id.toString() === userId.toString()) {
             for (const k in u) {
                 if (k !== 'id') {
-                    u[k] = user[k];
+                    u[k] = newUser[k];
                 }
             }
         }
